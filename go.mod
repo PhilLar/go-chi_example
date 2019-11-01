@@ -1,4 +1,4 @@
-module go-chi_sample
+module go-chi_example
 
 go 1.13
 
