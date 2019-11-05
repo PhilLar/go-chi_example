@@ -25,6 +25,7 @@ func main() {
 	r.Use(cors.Handler)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.RealIP)
 	// You can use [middleware] along the whole app work
 	//r.Use(middleware.AllowContentType("application/json"))
 
