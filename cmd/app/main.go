@@ -1,9 +1,15 @@
 package main
 
 import (
+	"flag"
 	"github.com/PhilLar/go-chi_example/handlers"
+	"github.com/PhilLar/go-chi_example/models"
 	"github.com/go-chi/chi/middleware"
+	_ "github.com/lib/pq"
+	"log"
 	"net/http"
+	"os"
+	"strconv"
 
 	customMiddleware "github.com/PhilLar/go-chi_example/middleware"
 	"github.com/PhilLar/go-chi_example/newsfeed"
@@ -11,9 +17,34 @@ import (
 	"github.com/go-chi/cors"
 )
 
+var port int
+var db string
 
+func init() {
+	defPort := 3333
+	var defDB string
+	if portVar, ok := os.LookupEnv("PORT"); ok {
+		if portValue, err := strconv.Atoi(portVar); err == nil {
+			defPort = portValue
+		}
+	}
+	if dbVar, ok := os.LookupEnv("DATABASE_URL"); ok {
+		defDB = dbVar
+	}
+	flag.IntVar(&port, "port", defPort, "port to listen on")
+	flag.StringVar(&db, "db", defDB, "database to connect to")
+}
 
 func main() {
+
+	dbPsql, err := models.NewDB(db, "")
+	if err != nil {
+		log.Panic(err)
+	}
+	defer dbPsql.Close()
+
+
+
 	r := chi.NewRouter()
 	cors := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
@@ -39,6 +70,16 @@ func main() {
 		w.Write([]byte("hello!"))
 	})
 
+	r.Get("/dbTest", func(w http.ResponseWriter, r *http.Request) {
+		err = dbPsql.Ping()
+		if err != nil {
+			panic(err)
+		}
+		log.Print("DB OK!")
+		w.Write([]byte("DB_TABLE pets CREATED!"))
+	})
+
+
 	r.Get("/newsfeed", handlers.NewsfeedGet(feed))
 
 	// Or you can use [middleware] [With] some special routes
@@ -60,5 +101,5 @@ func main() {
 		})
 	})
 
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":"+strconv.Itoa(port), r)
 }
