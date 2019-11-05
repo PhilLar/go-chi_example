@@ -33,7 +33,7 @@ func NewsfeedPost(feed newsfeed.Adder) http.HandlerFunc {
 			Title:	request["title"],
 			Post:	request["post"],
 		})
-		w.Write([]byte("alright!"))
+		w.Write([]byte("alright!\n"))
 	}
 }
 

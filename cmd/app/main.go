@@ -25,6 +25,8 @@ func main() {
 	r.Use(cors.Handler)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	// You can use [middleware] along the whole app work
+	//r.Use(middleware.AllowContentType("application/json"))
 
 	feed := newsfeed.New()
 	feed.Add(newsfeed.Item{
@@ -38,7 +40,9 @@ func main() {
 
 	r.Get("/newsfeed", handlers.NewsfeedGet(feed))
 
-	r.Post("/newsfeed", handlers.NewsfeedPost(feed))
+	// Or you can use [middleware] [With] some special routes
+	r.With(middleware.AllowContentType("application/sql")).Post("/newsfeed", handlers.NewsfeedPost(feed))
+	r.With(middleware.AllowContentType("application/json")).Post("/newsfeedRIGHT", handlers.NewsfeedPost(feed))
 
 	r.Route("/say", func(r chi.Router) {
 		r.Get("/{name}", handlers.RequestSay)
