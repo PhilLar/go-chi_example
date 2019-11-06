@@ -12,11 +12,12 @@ func PetMiddleware(next http.Handler) http.Handler {
 		"dog": struct{}{},
 	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		pet := chi.URLParam(r, "pet")
+		kind := chi.URLParam(r, "kind")
 
-		if _, ok := allowedPets[pet]; !ok {
+
+		if _, ok := allowedPets[kind]; !ok {
 			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte(fmt.Sprintf("forbidden pet: %s!\n", pet)))
+			w.Write([]byte(fmt.Sprintf("forbidden pet of kind: %s!\n", kind)))
 			return
 		}
 

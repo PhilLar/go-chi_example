@@ -43,7 +43,7 @@ func main() {
 	}
 	defer dbPsql.Close()
 
-
+	env := &handlers.Env{Store: &models.Store{DB: dbPsql}}
 
 	r := chi.NewRouter()
 	cors := cors.New(cors.Options{
@@ -92,13 +92,16 @@ func main() {
 	})
 
 	r.Route("/pets", func(r chi.Router) {
-		r.With(customMiddleware.PetMiddleware).Route("/{pet}", func(r chi.Router) {
-			r.Get("/", handlers.GetPetHandler)
-			r.Put("/", handlers.PutPetHandler)
-		})
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("hello!"))
+			w.Write([]byte("hello! glad to see you in pets root!"))
 		})
+		r.Put("/generate/{amount}", env.PutGeneratePetsHandler())
+		r.With(customMiddleware.PetMiddleware).Route("/{kind}/{name}", func(r chi.Router) {
+			r.Get("/", handlers.GetPetHandler)
+			r.Put("/", env.PutPetHandler())
+		})
+		r.Get("/{name}", handlers.RequestSay)
+		r.Get("/all", env.ListPetsHandler())
 	})
 
 	http.ListenAndServe(":"+strconv.Itoa(port), r)
