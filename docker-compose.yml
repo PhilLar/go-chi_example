@@ -1,0 +1,24 @@
+version: "2"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: chi_examp
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: chi_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5435:5432
+  go-chi_example:
+    image: go-chi_example
+    depends_on: 
+      - postgres
+    environment:
+      DATABASE_URL: postgres://chi_examp:test@postgres/chi_db?sslmode=disable
+    restart: always
+    ports:
+      - 3333:3333
+
+volumes:
+  postgres-data:
