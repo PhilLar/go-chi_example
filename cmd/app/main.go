@@ -101,7 +101,13 @@ func main() {
 			r.Put("/", env.PutPetHandler())
 		})
 		r.Get("/{name}", handlers.RequestSay)
-		r.Get("/all", env.ListPetsHandler())
+		r.Route("/get",  func(r chi.Router) {
+			r.Get("/all", env.ListPetsHandler())
+			r.Get("/filter/{underage}/{overage}/{kind}/{first_letter}", env.FilterPetsHandler())
+		})
+		r.Route("/remove",  func(r chi.Router) {
+			r.Put("/all", env.RemoveAllPetsHandler())
+		})
 	})
 
 	http.ListenAndServe(":"+strconv.Itoa(port), r)
