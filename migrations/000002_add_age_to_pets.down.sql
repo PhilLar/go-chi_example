@@ -1,0 +1,7 @@
+BEGIN;
+
+ALTER TABLE pets ALTER COLUMN pet_kind TYPE TEXT;
+DROP TYPE IF EXISTS pet_kind_enum;
+ALTER TABLE pets DROP COLUMN pet_age;
+
+COMMIT;
