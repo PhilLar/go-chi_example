@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+
 	sq "github.com/Masterminds/squirrel"
 )
 
@@ -10,12 +11,11 @@ type Store struct {
 }
 
 type Pet struct {
-	ID		int    `json:"id"`
-	Name 	string `json:"name"`
-	Kind   	string `json:"kind"`
-	Age  	int 	`json:"age"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Kind string `json:"kind"`
+	Age  int    `json:"age"`
 }
-
 
 func (s *Store) InsertPet(age int, name, kind string) (int, error) {
 	var ID int
@@ -66,7 +66,7 @@ func (s *Store) FilterPets(kind string, firstLetter string, underage, overage in
 		Where(sq.Lt{"pet_age": underage}).
 		Where(sq.Gt{"pet_age": overage}).
 		Where(sq.Eq{"pet_kind": kind}).
-		Where(sq.Like{"pet_name": firstLetter+"%"}).
+		Where(sq.Like{"pet_name": firstLetter + "%"}).
 		PlaceholderFormat(sq.Dollar).
 		RunWith(s.DB)
 	rows, err := query.Query()
@@ -85,5 +85,3 @@ func (s *Store) FilterPets(kind string, firstLetter string, underage, overage in
 	}
 	return pets, nil
 }
-
-

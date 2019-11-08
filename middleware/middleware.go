@@ -2,8 +2,9 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/go-chi/chi"
 	"net/http"
+
+	"github.com/go-chi/chi"
 )
 
 func PetMiddleware(next http.Handler) http.Handler {
@@ -13,7 +14,6 @@ func PetMiddleware(next http.Handler) http.Handler {
 	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		kind := chi.URLParam(r, "kind")
-
 
 		if _, ok := allowedPets[kind]; !ok {
 			w.WriteHeader(http.StatusBadRequest)

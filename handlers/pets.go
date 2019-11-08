@@ -3,14 +3,15 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/PhilLar/go-chi_example/models"
-	"github.com/go-chi/chi"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/PhilLar/go-chi_example/models"
+	"github.com/go-chi/chi"
 )
 
 var randomNameAPI string = "http://names.drycodes.com"
@@ -23,7 +24,7 @@ type PetStore interface {
 }
 
 type Env struct {
-	Store       PetStore
+	Store PetStore
 }
 
 func GetPetHandler(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +72,7 @@ func (env *Env) PutGeneratePetsHandler() http.HandlerFunc {
 			http.Error(w, err.Error(), 400)
 		}
 		pets := make([]*models.Pet, 0)
-		for i:=0; i<amount; i++ {
+		for i := 0; i < amount; i++ {
 			name := names[i]
 			kind := chooseYourDestiny()
 			age := generateAge()
@@ -80,10 +81,10 @@ func (env *Env) PutGeneratePetsHandler() http.HandlerFunc {
 				http.Error(w, err.Error(), 400)
 			}
 			pets = append(pets, &models.Pet{
-				ID:		ID,
-				Name:	name,
-				Kind:	kind,
-				Age:	age,
+				ID:   ID,
+				Name: name,
+				Kind: kind,
+				Age:  age,
 			})
 		}
 		err = json.NewEncoder(w).Encode(pets)
@@ -128,7 +129,7 @@ func generateAge() int {
 	rand.Seed(time.Now().UnixNano())
 	min := 1
 	max := 15
-	return rand.Intn(max - min + 1) + min
+	return rand.Intn(max-min+1) + min
 }
 
 func (env *Env) ListPetsHandler() http.HandlerFunc {

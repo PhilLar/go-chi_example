@@ -3,9 +3,10 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"github.com/PhilLar/go-chi_example/newsfeed"
 	"github.com/go-chi/chi"
-	"net/http"
 )
 
 func NewsfeedGet(feed newsfeed.Getter) http.HandlerFunc {
@@ -30,8 +31,8 @@ func NewsfeedPost(feed newsfeed.Adder) http.HandlerFunc {
 		json.NewDecoder(r.Body).Decode(&request)
 
 		feed.Add(newsfeed.Item{
-			Title:	request["title"],
-			Post:	request["post"],
+			Title: request["title"],
+			Post:  request["post"],
 		})
 		w.Write([]byte("alright!\n"))
 	}

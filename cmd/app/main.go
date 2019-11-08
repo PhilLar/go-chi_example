@@ -2,14 +2,15 @@ package main
 
 import (
 	"flag"
-	"github.com/PhilLar/go-chi_example/handlers"
-	"github.com/PhilLar/go-chi_example/models"
-	"github.com/go-chi/chi/middleware"
-	_ "github.com/lib/pq"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/PhilLar/go-chi_example/handlers"
+	"github.com/PhilLar/go-chi_example/models"
+	"github.com/go-chi/chi/middleware"
+	_ "github.com/lib/pq"
 
 	customMiddleware "github.com/PhilLar/go-chi_example/middleware"
 	"github.com/PhilLar/go-chi_example/newsfeed"
@@ -63,7 +64,7 @@ func main() {
 	feed := newsfeed.New()
 	feed.Add(newsfeed.Item{
 		Title: "Hello",
-		Post: "World",
+		Post:  "World",
 	})
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
@@ -78,7 +79,6 @@ func main() {
 		log.Print("DB OK!")
 		w.Write([]byte("DB_TABLE pets CREATED!"))
 	})
-
 
 	r.Get("/newsfeed", handlers.NewsfeedGet(feed))
 
@@ -101,11 +101,11 @@ func main() {
 			r.Put("/", env.PutPetHandler())
 		})
 		r.Get("/{name}", handlers.RequestSay)
-		r.Route("/get",  func(r chi.Router) {
+		r.Route("/get", func(r chi.Router) {
 			r.Get("/all", env.ListPetsHandler())
 			r.Get("/filter/{underage}/{overage}/{kind}/{first_letter}", env.FilterPetsHandler())
 		})
-		r.Route("/remove",  func(r chi.Router) {
+		r.Route("/remove", func(r chi.Router) {
 			r.Put("/all", env.RemoveAllPetsHandler())
 		})
 	})
