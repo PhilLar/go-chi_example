@@ -1,0 +1,25 @@
+basePath: /
+consumes:
+- application/json
+host: some-url.com
+info:
+  description: Documentation of our go-chi_example API.
+  title: go-chi_example.
+  version: 1.0.0
+paths:
+  /:
+    get:
+      operationId: idOfRootEndpoint
+      produces:
+      - plain/text
+      responses:
+        "200":
+          description: ' "hello!"'
+      summary: greets you on the route page.
+      tags:
+      - root
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
