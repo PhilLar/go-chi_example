@@ -8,8 +8,8 @@ import (
 
 	"github.com/PhilLar/go-chi_example/handlers"
 	"github.com/PhilLar/go-chi_example/models"
-	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/gojuno/minimock/v3"
 )
