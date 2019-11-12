@@ -10,5 +10,7 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.7.0
 	github.com/labstack/gommon v0.3.0
 	github.com/lib/pq v1.2.0
+	github.com/stretchr/testify v1.4.0
 	golang.org/x/net v0.0.0-20191028085509-fe3aa8a45271 // indirect
+	gotest.tools v2.2.0+incompatible
 )

@@ -13,6 +13,8 @@ run:
   # from this option's value (see skip-dirs-use-default).
   skip-dirs:
     - docs/
+  skip-files:
+    - handlers/pet_store_mock_test.go
 
 # output configuration options
 output:
@@ -28,6 +30,8 @@ output:
 
 # all available settings of specific linters
 linters-settings:
+  errcheck:
+    ignore: fmt:.*
   golint:
     # minimal confidence for issues, default is 0.8
     min-confidence: 0.8
@@ -53,6 +57,8 @@ linters-settings:
         paramsOnly: true
       rangeValCopy:
         sizeThreshold: 32
+  
+
 
 linters:
   enable:
